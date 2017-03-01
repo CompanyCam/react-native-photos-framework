@@ -99,7 +99,10 @@
     [dictToExtend setObject:[PHHelpers nsOptionsToArray:[asset mediaSubtypes] andBitSize:32 andReversedEnumDict:[RCTConvert PHAssetMediaSubtypeValuesReversed]] forKey:@"mediaSubTypes"];
     [dictToExtend setObject:@([asset isFavorite]) forKey:@"isFavorite"];
     [dictToExtend setObject:@([asset isHidden]) forKey:@"isHidden"];
-    [dictToExtend setObject:[PHHelpers nsOptionsToValue:[asset sourceType] andBitSize:32 andReversedEnumDict:[RCTConvert PHAssetSourceTypeValuesReversed]] forKey:@"sourceType"];
+    if ([asset respondsToSelector:@selector(sourceType)]) {
+        // not supported in iOS 8
+        [dictToExtend setObject:[PHHelpers nsOptionsToValue:[asset sourceType] andBitSize:32 andReversedEnumDict:[RCTConvert PHAssetSourceTypeValuesReversed]] forKey:@"sourceType"];
+    }
     NSString *burstIdentifier = [asset burstIdentifier];
     if(burstIdentifier != nil) {
         [dictToExtend setObject:burstIdentifier forKey:@"burstIdentifier"];
