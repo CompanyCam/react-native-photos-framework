@@ -77,12 +77,13 @@
                                              @([asset pixelWidth]), @"width",
                                              @([asset pixelHeight]), @"height",
                                              [reveredMediaTypes objectForKey:@([asset mediaType])], @"mediaType",
-                                             [PHHelpers getTimeSince1970:[asset creationDate]], @"creationDate",
                                              assetIndex, @"collectionIndex",
                                              nil];
         if(includeMetaData) {
             [self extendAssetDicWithAssetMetaData:responseDict andPHAsset:asset];
         }
+
+        [responseDict setObject:@([PHHelpers getTimeSince1970:[asset creationDate]]) forKey:@"creationDate"];
 
         [uriArray addObject:responseDict];
     }
