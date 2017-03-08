@@ -76,12 +76,10 @@
                                              [asset localIdentifier], @"localIdentifier",
                                              @([asset pixelWidth]), @"width",
                                              @([asset pixelHeight]), @"height",
-                                             [reveredMediaTypes objectForKey:@([asset mediaType])], @"mediaType",
-                                             assetIndex, @"collectionIndex",
                                              nil];
-        if(includeMetaData) {
-            [self extendAssetDicWithAssetMetaData:responseDict andPHAsset:asset];
-        }
+//        if(includeMetaData) {
+//            [self extendAssetDicWithAssetMetaData:responseDict andPHAsset:asset];
+//        }
 
         [responseDict setObject:@([PHHelpers getTimeSince1970:[asset creationDate]]) forKey:@"creationDate"];
 
