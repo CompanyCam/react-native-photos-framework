@@ -1,8 +1,8 @@
 #import "PHChangeObserver.h"
-#import "RCTBridge.h"
-#import "RCTBridge+Private.h"
-#import "RCTEventDispatcher.h"
-#import "RCTCachedFetchResult.h"
+#import <React/RCTBridge.h>
+#import <React/RCTBridge+Private.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTCachedFetchResult.h>
 #import "PHCollectionService.h"
 #import "PHAssetsService.h"
 @implementation PHChangeObserver
@@ -33,25 +33,25 @@
         //Unfortunately we seem to have to use a private-api here.
         //Let me know if you know how we can avoid this.
         RCTBridge * bridge = [RCTBridge currentBridge];
-        
+
         NSMutableDictionary<NSString *, RCTCachedFetchResult *> *previousFetches = [[PHChangeObserver sharedChangeObserver] fetchResults];
-        
+
         [previousFetches enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull uuid, RCTCachedFetchResult * _Nonnull cachedFetchResult, BOOL * _Nonnull stop) {
-            
+
             PHFetchResultChangeDetails *changeDetails = [changeInstance changeDetailsForFetchResult:cachedFetchResult.fetchResult];
-            
+
             if(changeDetails != nil) {
-                
-                
+
+
                 BOOL trackInsertsAndDeletes = [RCTConvert BOOL:cachedFetchResult.originalFetchParams[@"trackInsertsAndDeletes"]];
                 BOOL trackChanges = [RCTConvert BOOL:cachedFetchResult.originalFetchParams[@"trackChanges"]];
-                
+
                 NSMutableArray *removedLocalIdentifiers = (NSMutableArray *)[NSNull null];
                 NSArray *removedIndexes = (NSArray *)[NSNull null];
-                
+
                 NSMutableArray *insertedObjects = (NSMutableArray *)[NSNull null];
                 NSArray *insertedIndexes = (NSArray *)[NSNull null];
-                
+
                 if(trackInsertsAndDeletes) {
                     removedLocalIdentifiers = [NSMutableArray arrayWithCapacity:changeDetails.removedObjects.count];
                     removedIndexes = [self indexSetToReturnableArray:changeDetails.removedIndexes];
@@ -64,8 +64,8 @@
                                                                  }];
                         }
                     }
-                    
-                    
+
+
                     insertedObjects = [NSMutableArray arrayWithCapacity:changeDetails.insertedObjects.count];
                     insertedIndexes = [self indexSetToReturnableArray:changeDetails.insertedIndexes];
                     for(int i = 0; i < [changeDetails.insertedIndexes count];i++) {
@@ -79,7 +79,7 @@
                                                          @"obj" : insertedObject
                                                          }];
                         }
-                        
+
                         if([object isKindOfClass:[PHAsset class]]) {
                             NSDictionary *insertedObject = [[PHAssetsService assetsArrayToUriArray:@[object] andIncludeMetaData:[RCTConvert BOOL:cachedFetchResult.originalFetchParams[@"includeMetaData"]]] objectAtIndex:0];
                             NSNumber *collectionIndex = [insertedIndexes objectAtIndex:i];
@@ -92,13 +92,13 @@
                         }
                     }
                 }
-                
+
                 NSMutableArray *changedObjects = (NSMutableArray *)[NSNull null];
                 NSArray *changedIndexes = (NSArray *)[NSNull null];
                 if(trackChanges) {
                     changedObjects = [NSMutableArray arrayWithCapacity:changeDetails.changedObjects.count];
                     changedIndexes = [self indexSetToReturnableArray:changeDetails.changedIndexes];
-                    
+
                     for(int i = 0; i < [changeDetails.changedObjects count];i++) {
                         PHObject *object = (PHObject *)[changeDetails.changedObjects objectAtIndex:i];
                         if([object isKindOfClass:[PHCollection class]]) {
@@ -108,9 +108,9 @@
                                                         @"index" : [changedIndexes objectAtIndex:i],
                                                         @"obj" : changedObject
                                                         }];
-                            
+
                         }
-                        
+
                         if([object isKindOfClass:[PHAsset class]]) {
                             NSDictionary *changedObject = [[PHAssetsService assetsArrayToUriArray:@[object] andIncludeMetaData:[RCTConvert BOOL:cachedFetchResult.originalFetchParams[@"includeMetaData"]]] objectAtIndex:0];
                             NSNumber *collectionIndex = [insertedIndexes objectAtIndex:i];
@@ -121,10 +121,10 @@
                                                         @"obj" : mutableChangedDict
                                                         }];
                         }
-                        
+
                     }
                 }
-                
+
                 if(trackInsertsAndDeletes || trackChanges) {
                     NSMutableArray *moves = (NSMutableArray *)[NSNull null];
                     if(changeDetails.hasMoves) {
@@ -134,18 +134,18 @@
                             [moves addObject:@(toIndex)];
                         }];
                     }
-                    
+
                     BOOL hasMoves = ![moves isEqual:[NSNull null]] && moves.count != 0;
-                    
+
                     BOOL shouldNotifyForInsertOrDelete = ((
                                                            (![insertedIndexes isEqual:[NSNull null]] && insertedIndexes.count != 0) ||
                                                            (![removedIndexes isEqual:[NSNull null]] && removedIndexes.count != 0) ||
                                                            hasMoves) && trackInsertsAndDeletes);
-                    
+
                     BOOL shouldNotifyForChange = ((
                                                    (![changedIndexes isEqual:[NSNull null]] && changedIndexes.count != 0) ||
                                                    hasMoves) && trackChanges);
-                    
+
                     if(shouldNotifyForInsertOrDelete || shouldNotifyForChange){
                         [bridge.eventDispatcher sendAppEventWithName:@"RNPFObjectChange"
                                                                 body:@{
@@ -166,7 +166,7 @@
 
             }
         }];
-        
+
         [bridge.eventDispatcher sendAppEventWithName:@"RNPFLibraryChange"
                                                 body:@{}];
     }

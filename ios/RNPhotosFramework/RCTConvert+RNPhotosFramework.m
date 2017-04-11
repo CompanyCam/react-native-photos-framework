@@ -1,4 +1,4 @@
-#import "RCTConvert.h"
+#import <React/RCTConvert.h>
 #import "RCTConvert+RNPhotosFramework.h"
 #import "PHSaveAssetRequest.h"
 @import Photos;
@@ -51,13 +51,13 @@ RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetBurstSelectionType, (@{
                                                         }), PHAssetBurstSelectionTypeNone, integerValue)
 
 RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetMediaType, (@{
-                                        
+
                                         // New values
                                         @"image": @(PHAssetMediaTypeImage),
                                         @"video": @(PHAssetMediaTypeVideo),
                                         @"audio": @(PHAssetMediaTypeAudio),
                                         @"unknown": @(PHAssetMediaTypeUnknown)
-                                        
+
                                         }), PHAssetMediaTypeImage, integerValue)
 
 RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetMediaSubtype, (@{
@@ -69,7 +69,7 @@ RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetMediaSubtype, (@{
                                            @"videoStreamed": @(PHAssetMediaSubtypeVideoStreamed),
                                            @"videoHighFrameRate": @(PHAssetMediaSubtypeVideoHighFrameRate),
                                            @"videoTimeLapse": @(PHAssetMediaSubtypeVideoTimelapse),
-                                           
+
                                            }), PHAssetMediaSubtypeNone, integerValue)
 
 
@@ -77,7 +77,7 @@ RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetCollectionType, (@{
                                              @"album": @(PHAssetCollectionTypeAlbum),
                                              @"smartAlbum": @(PHAssetCollectionTypeSmartAlbum),
                                              @"moment": @(PHAssetCollectionTypeMoment)
-                                             
+
                                              }), PHAssetCollectionTypeAlbum, integerValue)
 
 RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetCollectionSubtype, (@{
@@ -87,10 +87,10 @@ RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetCollectionSubtype, (@{
                                                 @"syncedFaces": @(PHAssetCollectionSubtypeAlbumSyncedFaces),
                                                 @"syncedAlbum": @(PHAssetCollectionSubtypeAlbumSyncedAlbum),
                                                 @"imported": @(PHAssetCollectionSubtypeAlbumImported),
-                                                
+
                                                 @"albumMyPhotoStream": @(PHAssetCollectionSubtypeAlbumMyPhotoStream),
                                                 @"albumCloudShared": @(PHAssetCollectionSubtypeAlbumCloudShared),
-                                                
+
                                                 @"smartAlbumGeneric": @(PHAssetCollectionSubtypeSmartAlbumGeneric),
                                                 @"smartAlbumPanoramas": @(PHAssetCollectionSubtypeSmartAlbumPanoramas),
                                                 @"smartAlbumVideos": @(PHAssetCollectionSubtypeSmartAlbumVideos),
@@ -104,17 +104,17 @@ RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetCollectionSubtype, (@{
                                                 @"smartAlbumSelfPortraits": @(PHAssetCollectionSubtypeSmartAlbumSelfPortraits),
                                                 @"smartAlbumScreenshots": @(PHAssetCollectionSubtypeSmartAlbumScreenshots),
                                                 @"smartAlbumDepthEffect" : @(PHAssetCollectionSubtypeSmartAlbumDepthEffect)
-                                                
+
                                                 }), PHCollectionListSubtypeAny, integerValue)
 
 RCT_ENUM_CONVERTER_WITH_REVERSED(PHAssetSourceType, (@{
-                                         
+
                                          // New values
                                          @"none": @(PHAssetSourceTypeNone),
                                          @"userLibrary": @(PHAssetSourceTypeUserLibrary),
                                          @"cloudShared": @(PHAssetSourceTypeCloudShared),
                                          @"itunesSynced": @(PHAssetSourceTypeiTunesSynced)
-                                         
+
                                          }), PHAssetSourceTypeNone, integerValue)
 
 + (NSArray<NSNumber *> *)PHAssetMediaTypes:(NSArray<NSString *> *)arrayWithMediaTypeStrings

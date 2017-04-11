@@ -1,6 +1,6 @@
 #import "PHHelpers.h"
 #import <CoreLocation/CLLocation.h>
-#import "RCTConvert.h"
+#import <React/RCTConvert.h>
 #import "RCTConvert+RNPhotosFramework.h"
 
 @implementation PHHelpers
@@ -53,10 +53,10 @@
         NSUInteger enumBitValueToCheck = 1UL << i;
         if (option & enumBitValueToCheck) {
             [nsOptions addObject:[dict objectForKey:@(enumBitValueToCheck)]];
-            
+
         }
     }
-    
+
     return nsOptions;
 }
 
@@ -70,10 +70,10 @@
         NSUInteger enumBitValueToCheck = 1UL << i;
         if (option & enumBitValueToCheck) {
             return [dict objectForKey:@(enumBitValueToCheck)];
-            
+
         }
     }
-    
+
     return (NSString*)[NSNull null];
 }
 

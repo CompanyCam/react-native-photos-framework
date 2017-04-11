@@ -1,5 +1,5 @@
 #import "PHFetchOptionsService.h"
-#import "RCTConvert.h"
+#import <React/RCTConvert.h>
 #import "RCTConvert+RNPhotosFramework.h"
 @import Photos;
 @implementation PHFetchOptionsService
@@ -115,12 +115,12 @@
         return nil;
     }
     NSMutableArray *arrayWithPredicates = [NSMutableArray arrayWithCapacity:mediaSubTypes.count];
-    
+
     for(int i = 0; i < mediaSubTypes.count;i++) {
         PHAssetMediaSubtype mediaSubType = [[mediaSubTypes objectAtIndex:i] intValue];
         [arrayWithPredicates addObject:[NSPredicate predicateWithFormat:@"((mediaSubtype & %d) == %d)", mediaSubType, mediaSubType]];
     }
-    
+
     return [NSCompoundPredicate orPredicateWithSubpredicates:arrayWithPredicates];
 }
 

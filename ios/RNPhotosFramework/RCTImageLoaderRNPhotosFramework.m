@@ -1,7 +1,7 @@
 #import "RCTImageLoaderRNPhotosFramework.h"
 #import <Photos/Photos.h>
-#import "RCTImageUtils.h"
-#import "RCTUtils.h"
+#import <React/RCTImageUtils.h>
+#import <React/RCTUtils.h>
 
 @implementation RCTImageLoaderRNPhotosFramework
 
@@ -42,7 +42,7 @@ RCT_EXPORT_MODULE()
       [fetchOptions setIncludeAllBurstAssets:YES];
       [fetchOptions setWantsIncrementalChangeDetails:NO];
     assetID = [imageURL.absoluteString substringFromIndex:@"pk://".length];
-      
+
     results = [PHAsset fetchAssetsWithLocalIdentifiers:@[assetID] options:fetchOptions];
   }
   if (results.count == 0) {
@@ -82,14 +82,14 @@ RCT_EXPORT_MODULE()
   if (resizeMode == RCTResizeModeContain) {
     contentMode = PHImageContentModeAspectFit;
   }
-  
-    
+
+
   NSURLComponents *urlComponents = [NSURLComponents componentsWithURL:imageURL
                                                 resolvingAgainstBaseURL:NO];
   NSArray *queryItems = urlComponents.queryItems;
   NSString *deliveryModeQuery = [self valueForKey:@"deliveryMode"
                           fromQueryItems:queryItems];
-    
+
   __block PHImageRequestOptionsDeliveryMode deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
     if(deliveryModeQuery != nil) {
         if([deliveryModeQuery isEqualToString:@"opportunistic"]) {

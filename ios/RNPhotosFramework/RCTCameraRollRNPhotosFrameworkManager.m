@@ -1,17 +1,17 @@
 #import "RCTCameraRollRNPhotosFrameworkManager.h"
-#import "RCTUtils.h"
+#import <React/RCTUtils.h>
 #import "PHCachingImageManagerInstance.h"
-#import "RCTConvert.h"
-#import "RCTImageLoader.h"
-#import "RCTLog.h"
-#import "RCTUtils.h"
+#import <React/RCTConvert.h>
+#import <React/RCTImageLoader.h>
+#import <React/RCTLog.h>
+#import <React/RCTUtils.h>
 #import "RCTConvert+RNPhotosFramework.h"
 #import "PHChangeObserver.h"
 #import "PHFetchOptionsService.h"
 #import "PHAssetsService.h"
 #import "PHCollectionService.h"
-#import "RCTCachedFetchResult.h"
-#import "RCTProfile.h"
+#import <React/RCTCachedFetchResult.h>
+#import <React/RCTProfile.h>
 #import "PHSaveAssetRequest.h"
 #import "PHHelpers.h"
 @import Photos;
@@ -42,7 +42,7 @@ RCT_EXPORT_METHOD(requestAuthorization:(RCTPromiseResolveBlock)resolve
                   reject:(RCTPromiseRejectBlock)reject)
 {
     [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
-        
+
         resolve(@{
                   @"status" : [[RCTConvert PHAuthorizationStatusValuesReversed] objectForKey:@(status)],
                   @"isAuthorized" : @((BOOL)(status == PHAuthorizationStatusAuthorized))
@@ -56,16 +56,16 @@ RCT_EXPORT_METHOD(getAssets:(NSDictionary *)params
                   reject:(RCTPromiseRejectBlock)reject)
 {
     RCT_PROFILE_BEGIN_EVENT(0, @"-[RCTCameraRollRNPhotosFrameworkManager getAssets", nil);
-    
+
     PHFetchResult<PHAsset *> *assetsFetchResult = [PHAssetsService getAssetsForParams:params];
-    
+
     NSString *startIndexParam = params[@"startIndex"];
     NSString *endIndexParam = params[@"endIndex"];
     BOOL includeMetaData = [RCTConvert BOOL:params[@"includeMetaData"]];
-    
+
     int startIndex = [RCTConvert int:startIndexParam];
     int endIndex = endIndexParam != nil ? [RCTConvert int:endIndexParam] : (int)(assetsFetchResult.count -1);
-    
+
     BOOL assetDisplayStartToEnd = [RCTConvert BOOL:params[@"assetDisplayStartToEnd"]];
     BOOL assetDisplayBottomUp = [RCTConvert BOOL:params[@"assetDisplayBottomUp"]];
     NSArray<PHAssetWithCollectionIndex *> *assets = [PHAssetsService getAssetsForFetchResult:assetsFetchResult startIndex:startIndex endIndex:endIndex assetDisplayStartToEnd:assetDisplayStartToEnd andAssetDisplayBottomUp:assetDisplayBottomUp];
@@ -113,11 +113,11 @@ RCT_EXPORT_METHOD(updateAlbumTitle:(NSDictionary *)params
     if (![collection canPerformEditOperation:PHCollectionEditOperationRename]) {
         return reject(@"Can't PerformEditOperation", nil, nil);
     }
-    
+
     [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
         PHAssetCollectionChangeRequest *changeTitlerequest =[PHAssetCollectionChangeRequest changeRequestForAssetCollection:collection];
         changeTitlerequest.title = newTitle;
-        
+
     } completionHandler:^(BOOL success, NSError *error) {
         if(success) {
             return resolve(@{ @"success" : @(success) });
@@ -140,7 +140,7 @@ RCT_EXPORT_METHOD(addAssetsToAlbum:(NSDictionary *)params
         }else {
             return reject(@"Error adding assets to album", nil, error);
         }
-        
+
     }];
 }
 
@@ -208,17 +208,17 @@ RCT_EXPORT_METHOD(createAlbums:(NSArray *)albumTitles
     if(albumTitles == nil) {
         return reject(@"input array with album-names array<string> cannot be null", nil, nil);
     }
-    
+
     if(albumTitles.count == 0) {
         return resolve(@[]);
     }
-    
+
     [PHCollectionService createAlbumsWithTitles:albumTitles andCompleteBLock:^(BOOL success, NSError * _Nullable error, NSArray<NSString *> *localIdentifiers) {
         if(success) {
             PHFetchResult<PHAssetCollection *> *collections = [PHCollectionService getAlbumsWithLocalIdentifiers:localIdentifiers andParams:nil];
-            
+
           NSMutableDictionary *response = [PHCollectionService generateCollectionResponseWithCollections:(PHFetchResult<PHCollection *> *)collections andParams:[NSDictionary dictionaryWithObjectsAndKeys:@"true", @"noCache", nil]];
-            
+
             return resolve([response objectForKey:@"albums"]);
         }else{
             return reject([NSString stringWithFormat:@"Error creating albumTitles %@", albumTitles], nil, error);
@@ -241,7 +241,7 @@ RCT_EXPORT_METHOD(deleteAssets:(NSArray *)localIdentifiers
         }
         return reject(@"Error removing assets", nil, error);
     }];
-    
+
 }
 
 RCT_EXPORT_METHOD(deleteAlbums:(NSArray *)albumsLocalIdentifiers
@@ -251,11 +251,11 @@ RCT_EXPORT_METHOD(deleteAlbums:(NSArray *)albumsLocalIdentifiers
     if(albumsLocalIdentifiers == nil) {
         return reject(@"input array with album-localIdentifiers array<string> cannot be null", nil, nil);
     }
-    
+
     if(albumsLocalIdentifiers.count == 0) {
         return resolve(@[]);
     }
-    
+
     [PHCollectionService deleteAlbumsWithLocalIdentifers:albumsLocalIdentifiers andCompleteBLock:^(BOOL success, NSError * _Nullable error) {
         if(success) {
             return resolve(@{@"success" : @(success)});
@@ -284,7 +284,7 @@ RCT_EXPORT_METHOD(getAssetsMetaData:(NSArray<NSString *> *)arrayWithLocalIdentif
         CGSize prepareForSizeDisplay = [RCTConvert CGSize:params[@"prepareForSizeDisplay"]];
         CGFloat prepareScale = [RCTConvert CGFloat:params[@"prepareScale"]];
         PHCachingImageManager *cacheManager = [PHCachingImageManagerInstance sharedCachingManager];
-        
+
         if(prepareForSizeDisplay.width != 0 && prepareForSizeDisplay.height != 0) {
             if(prepareScale < 0.1) {
                 prepareScale = 2;
@@ -306,7 +306,7 @@ RCT_EXPORT_METHOD(createAssets:(NSDictionary *)params
     }
     NSString *albumLocalIdentifier = [RCTConvert NSString:params[@"albumLocalIdentifier"]];
     PHAssetCollection *collection = [PHCollectionService getAssetForLocalIdentifer:albumLocalIdentifier];
-    
+
     [self saveImages:[images mutableCopy] andLocalIdentifers:[NSMutableArray arrayWithCapacity:images.count] andCollection:collection andCompleteBLock:^(BOOL success, NSError * _Nullable error, NSMutableArray<NSString *> *localIdentifiers) {
         if(localIdentifiers && localIdentifiers.count != 0) {
             PHFetchResult<PHAsset *> *newAssets = [PHAssetsService getAssetsFromArrayOfLocalIdentifiers:localIdentifiers];
@@ -319,7 +319,7 @@ RCT_EXPORT_METHOD(createAssets:(NSDictionary *)params
 }
 
 -(void) saveImages:(NSMutableArray<PHSaveAssetRequest *> *)requests andLocalIdentifers:(NSMutableArray<NSString *> *)localIdentifiers andCollection:(PHAssetCollection *)collection andCompleteBLock:(nullable void(^)(BOOL success, NSError *__nullable error, NSMutableArray<NSString *> * localIdentifiers))completeBlock {
-    
+
     if(requests.count == 0){
         return completeBlock(YES, nil, localIdentifiers);
     }
@@ -362,7 +362,7 @@ andCompleteBLock:(nullable void(^)(BOOL success, NSError *__nullable error, NSSt
         // It's unclear if thread-safe
         dispatch_async(dispatch_get_main_queue(), ^{
             [NSException raise:@"Not implementeted exception" format:@"Sry"];
-            
+
         });
     } else {
 
