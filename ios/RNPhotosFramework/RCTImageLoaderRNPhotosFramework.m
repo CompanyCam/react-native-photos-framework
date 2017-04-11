@@ -1,6 +1,6 @@
 #import "RCTImageLoaderRNPhotosFramework.h"
 #import <Photos/Photos.h>
-#import <React/RCTImageUtils.h>
+#import <RCTImage/RCTImageUtils.h>
 #import <React/RCTUtils.h>
 
 @implementation RCTImageLoaderRNPhotosFramework
