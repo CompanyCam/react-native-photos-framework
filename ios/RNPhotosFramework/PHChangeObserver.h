@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <React/RCTBridge.h>
-#import <React/RCTCachedFetchResult.h>
-#import <React/RCTCachedFetchResult.h>
+#import "RCTCachedFetchResult.h"
+
 @import Photos;
 @interface PHChangeObserver : NSObject<PHPhotoLibraryChangeObserver>
 + (PHChangeObserver *)sharedChangeObserver;

@@ -10,7 +10,7 @@
 #import "PHFetchOptionsService.h"
 #import "PHAssetsService.h"
 #import "PHCollectionService.h"
-#import <React/RCTCachedFetchResult.h>
+#import "RCTCachedFetchResult.h"
 #import <React/RCTProfile.h>
 #import "PHSaveAssetRequest.h"
 #import "PHHelpers.h"

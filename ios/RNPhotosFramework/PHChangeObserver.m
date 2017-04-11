@@ -2,7 +2,7 @@
 #import <React/RCTBridge.h>
 #import <React/RCTBridge+Private.h>
 #import <React/RCTEventDispatcher.h>
-#import <React/RCTCachedFetchResult.h>
+#import "RCTCachedFetchResult.h"
 #import "PHCollectionService.h"
 #import "PHAssetsService.h"
 @implementation PHChangeObserver
