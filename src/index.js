@@ -1,4 +1,3 @@
-import ReactPropTypes from 'react/lib/ReactPropTypes';
 import {
   NativeAppEventEmitter
 } from 'react-native';
