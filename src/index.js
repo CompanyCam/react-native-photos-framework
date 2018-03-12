@@ -8,7 +8,7 @@ import Asset from './asset';
 import Album from './album';
 import AlbumQueryResult from './album-query-result';
 import AlbumQueryResultCollection from './album-query-result-collection';
-import EventEmitter from '../../react-native/Libraries/EventEmitter/EventEmitter';
+import EventEmitter from '../../react-native/Libraries/vendor/emitter/EventEmitter';
 const RCTCameraRollRNPhotosFrameworkManager = NativeModules.CameraRollRNPhotosFrameworkManager;
 export const eventEmitter = new EventEmitter();
 
@@ -30,7 +30,7 @@ class CameraRollRNPhotosFramework {
     const methodsWithoutCacheCleanBlock = ['constructor', 'cleanCache', 'authorizationStatus', 'requestAuthorization'];
     const methodNames = (
       Object.getOwnPropertyNames(CameraRollRNPhotosFramework.prototype)
-      .filter(method => methodsWithoutCacheCleanBlock.indexOf(method) === -1)
+        .filter(method => methodsWithoutCacheCleanBlock.indexOf(method) === -1)
     );
     methodNames.forEach(methodName => {
       const originalMethod = this[methodName];
