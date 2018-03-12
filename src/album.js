@@ -4,7 +4,7 @@ import uuidGenerator from './uuid-generator';
 import changeObserverHandler, {
     assetArrayObserverHandler
 } from './change-observer-handler';
-import EventEmitter from '../../react-native/Libraries/EventEmitter/EventEmitter';
+import EventEmitter from '../../react-native/Libraries/vendor/emitter/EventEmitter';
 
 export default class Album extends EventEmitter {
 
@@ -33,9 +33,9 @@ export default class Album extends EventEmitter {
                                 //The update algo has requested new assets.
                                 return this.newAssetsRequested(indecies, fetchOptions, callback);
                             }, this.perferedSortOrder).then(updatedArray => {
-                            callback && callback(updatedArray);
-                            return updatedArray;
-                        });
+                                callback && callback(updatedArray);
+                                return updatedArray;
+                            });
                     }
                     return assetArray;
                 }, this);
@@ -44,7 +44,7 @@ export default class Album extends EventEmitter {
     }
 
     newAssetsRequested(indecies, fetchOptions, callback) {
-        const fetchOptionsWithIndecies = {...fetchOptions, indecies : [...indecies]};
+        const fetchOptionsWithIndecies = { ...fetchOptions, indecies: [...indecies] };
         return this.getAssetsWithIndecies(fetchOptionsWithIndecies).then((assets) => {
             callback && callback(assets);
             return assets;

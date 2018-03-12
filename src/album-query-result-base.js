@@ -1,7 +1,7 @@
 import Album from './album';
 import photoAppSort from './photo-app-sort';
 import instagramAppSort from './instagram-app-sort';
-import EventEmitter from '../../react-native/Libraries/EventEmitter/EventEmitter';
+import EventEmitter from '../../react-native/Libraries/vendor/emitter/EventEmitter';
 
 export default class AlbumQueryResultBase extends EventEmitter {
 
@@ -39,7 +39,7 @@ export default class AlbumQueryResultBase extends EventEmitter {
     }
 
     onChange(changeHandler) {
-      this.addListener('onChange', changeHandler);
-      return () => this.removeListener('onChange', changeHandler);
+        this.addListener('onChange', changeHandler);
+        return () => this.removeListener('onChange', changeHandler);
     }
 }
